@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:rostelecom_life_application/enum/excel_headers_enum.dart';
 
-// part 'hive_adap.g.dart';
+part 'hive_adap.g.dart';
 
 @HiveType(typeId: 0)
 class ApName {

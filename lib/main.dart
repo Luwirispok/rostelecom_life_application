@@ -9,8 +9,8 @@ import 'package:rostelecom_life_application/data/entities/hive_adap.dart';
 
 void main() async {
   await Hive.initFlutter().then((_) {
-    // Hive.registerAdapter(OurDataAdapter());
-    // Hive.registerAdapter(ApNameAdapter());
+    Hive.registerAdapter(OurDataAdapter());
+    Hive.registerAdapter(ApNameAdapter());
   });
 
   runApp(const MyApp());
@@ -45,13 +45,13 @@ class _MyHomePageState extends State<MyHomePage> {
   void names() async {
     Box box = await Hive.openBox<ApName>('ANames');
 
-    box.add(ApName(key: 'sad', ourdata: [
+    box.add(ApName(key: 'mick', ourdata: [
       OurData(
-        numberOrder: 'numbesdradasdasddsOrder',
-        INN: 'IsdNadasdN',
-        status: 'stasasdasdadtus',
-        dateOfEntryOfOrderInStatus: 'dateOfdsEntasdasdryOfOrderInStatus',
-        service: 'sasdasdarvice',
+        numberOrder: 'numbesdraddsadassdasddsOrder',
+        INN: 'IsdNadaasdasdsdN',
+        status: 'stasasdaasdasdasdadtus',
+        dateOfEntryOfOrderInStatus: 'dateOfdsEntaasdasdsdasdryOfOrderInStatus',
+        service: 'sasdasdarasdsavice',
         additionalSalesChannel: 'additionadslSalesChannel',
         dateOfApplicationRegistration: 'dateOfsdApplicationRegistration',
         dateOfRegistrationUnderTheOrder: 'dateOfsdRegistrationUnderTheOrder',
@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.all(20),
               child: ElevatedButton(
-                onPressed: () => names,
+                onPressed: names,
                 child: Text('Press on me'),
               ),
             ),
