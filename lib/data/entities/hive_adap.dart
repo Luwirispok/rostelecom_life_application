@@ -86,38 +86,3 @@ class OurData {
     required this.client,
   });
 }
-
-// class OurDataAdapter extends TypeAdapter<OurData> {
-//   @override
-//   int get typeId => 1;
-
-//   @override
-//   OurData read(BinaryReader reader) {
-//     return read(reader);
-//   }
-
-//   @override
-//   void write(BinaryWriter writer, OurData obj) {
-//     writer.write(obj.client);
-//   }
-// }
-
-
-// class ApNameAdapter extends TypeAdapter<ApName> {
-//   @override
-//   int get typeId => 0;
-
-//   @override
-//   ApName read(BinaryReader reader) {
-//     // return read(reader);
-//     String key = reader.readString();
-//     List<OurData> ourData = reader.read();
-//     return ApName(key: key, ourdata: ourData);
-//   }
-
-//   @override
-//   void write(BinaryWriter writer, ApName obj) {
-//     writer.writeString(obj.key);
-//     writer.writeList(obj.ourdata);
-//   }
-// }
