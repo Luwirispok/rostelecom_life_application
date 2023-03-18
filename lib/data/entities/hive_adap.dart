@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:rostelecom_life_application/enum/excel_headers_enum.dart';
 
-// part 'hive_adap.g.dart';
+part 'hive_adap.g.dart';
 
 @HiveType(typeId: 0)
 class ApName {
@@ -85,4 +84,123 @@ class OurData {
     required this.durationOfStageTo,
     required this.client,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'numberOrder': this.numberOrder,
+      'client': this.client,
+      'INN': this.INN,
+      'status': this.status,
+      'dateOfEntryOfOrderInStatus': this.dateOfEntryOfOrderInStatus,
+      'service': this.service,
+      'additionalSalesChannel': this.additionalSalesChannel,
+      'dateOfApplicationRegistration': this.dateOfApplicationRegistration,
+      'dateOfRegistrationUnderTheOrder': this.dateOfRegistrationUnderTheOrder,
+      'regOfOrderOnTVP': this.regOfOrderOnTVP,
+      'checkTypeOfTVP': this.checkTypeOfTVP,
+      'availabilityOfTVP': this.availabilityOfTVP,
+      'completionOfTVPCheck': this.completionOfTVPCheck,
+      'durationOfTVPCheck': this.durationOfTVPCheck,
+      'noOfClients': this.noOfClients,
+      'dateOfSendingToAPTV': this.dateOfSendingToAPTV,
+      'endDateOfAPTVPlanned': this.endDateOfAPTVPlanned,
+      'endDateOfAPTVActual': this.endDateOfAPTVActual,
+      'durationOfAPTVStage': this.durationOfAPTVStage,
+      'dispatchDateToDo': this.dispatchDateToDo,
+      'endDateToPlanned': this.endDateToPlanned,
+      'endDateToActual': this.endDateToActual,
+      'durationOfStageTo': this.durationOfStageTo,
+    };
+  }
+
+  List<dynamic> toList() {
+    return [
+      numberOrder,
+      client,
+      INN,
+      status,
+      dateOfEntryOfOrderInStatus,
+      service,
+      additionalSalesChannel,
+      dateOfApplicationRegistration,
+      dateOfRegistrationUnderTheOrder,
+      regOfOrderOnTVP,
+      checkTypeOfTVP,
+      availabilityOfTVP,
+      completionOfTVPCheck,
+      durationOfTVPCheck,
+      noOfClients,
+      dateOfSendingToAPTV,
+      endDateOfAPTVPlanned,
+      endDateOfAPTVActual,
+      durationOfAPTVStage,
+      dispatchDateToDo,
+      endDateToPlanned,
+      endDateToActual,
+      durationOfStageTo,
+    ];
+  }
+
+  factory OurData.fromMap(Map<String, dynamic> map) {
+    return OurData(
+      numberOrder: map['numberOrder'] as dynamic,
+      client: map['client'] as dynamic,
+      INN: map['INN'] as dynamic,
+      status: map['status'] as dynamic,
+      dateOfEntryOfOrderInStatus: map['dateOfEntryOfOrderInStatus'] as dynamic,
+      service: map['service'] as dynamic,
+      additionalSalesChannel: map['additionalSalesChannel'] as dynamic,
+      dateOfApplicationRegistration: map['dateOfApplicationRegistration'] as dynamic,
+      dateOfRegistrationUnderTheOrder: map['dateOfRegistrationUnderTheOrder'] as dynamic,
+      regOfOrderOnTVP: map['regOfOrderOnTVP'] as dynamic,
+      checkTypeOfTVP: map['checkTypeOfTVP'] as dynamic,
+      availabilityOfTVP: map['availabilityOfTVP'] as dynamic,
+      completionOfTVPCheck: map['completionOfTVPCheck'] as dynamic,
+      durationOfTVPCheck: map['durationOfTVPCheck'] as dynamic,
+      noOfClients: map['noOfClients'] as dynamic,
+      dateOfSendingToAPTV: map['dateOfSendingToAPTV'] as dynamic,
+      endDateOfAPTVPlanned: map['endDateOfAPTVPlanned'] as dynamic,
+      endDateOfAPTVActual: map['endDateOfAPTVActual'] as dynamic,
+      durationOfAPTVStage: map['durationOfAPTVStage'] as dynamic,
+      dispatchDateToDo: map['dispatchDateToDo'] as dynamic,
+      endDateToPlanned: map['endDateToPlanned'] as dynamic,
+      endDateToActual: map['endDateToActual'] as dynamic,
+      durationOfStageTo: map['durationOfStageTo'] as dynamic,
+    );
+  }
 }
+
+// class OurDataAdapter extends TypeAdapter<OurData> {
+//   @override
+//   int get typeId => 1;
+
+//   @override
+//   OurData read(BinaryReader reader) {
+//     return read(reader);
+//   }
+
+//   @override
+//   void write(BinaryWriter writer, OurData obj) {
+//     writer.write(obj.client);
+//   }
+// }
+
+
+// class ApNameAdapter extends TypeAdapter<ApName> {
+//   @override
+//   int get typeId => 0;
+
+//   @override
+//   ApName read(BinaryReader reader) {
+//     // return read(reader);
+//     String key = reader.readString();
+//     List<OurData> ourData = reader.read();
+//     return ApName(key: key, ourdata: ourData);
+//   }
+
+//   @override
+//   void write(BinaryWriter writer, ApName obj) {
+//     writer.writeString(obj.key);
+//     writer.writeList(obj.ourdata);
+//   }
+// }
