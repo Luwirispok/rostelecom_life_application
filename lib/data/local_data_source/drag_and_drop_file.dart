@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:excel/excel.dart';
@@ -20,13 +21,22 @@ class DragAndDropFile {
           el: excel.tables[tableName]!.rows[0].map((e) => e?.value.toString() ?? '').toList().indexOf(el.name())
       };
       for (List<Data?> element in excel.tables[tableName]!.rows.sublist(1)) {
-        listData.add(ListDataToOurDataMap.getData(mapExcelHeader.values
+        listData.add(ListDataToOurDataMap.getData(mapExcelHeader.entries
             .map(
-              (index) => element[index]?.value,
-        )
+              (index) {
+                log('${element[index.value]?.value.toString()}', name: 'Table');
+                return index.key == ExcelHeaderEnum.client ? _clearOfDebris(element[index.value]?.value.toString()):
+                element[index.value]?.value;
+              },
+            )
             .toList()));
       }
     }
     return listData;
   }
+
+  static String? _clearOfDebris(String? str) => str != null
+      ? RegExp(r'<span\sstyle="color:\sred;padding:2px">(.*?)<\/span>').firstMatch(str)?.group(1) ?? str
+      : null;
 }
+
