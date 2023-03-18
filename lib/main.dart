@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:provider/provider.dart';
 import 'package:rostelecom_life_application/data/entities/hive_adap.dart';
 
 void main() async {
@@ -22,13 +23,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: MyHomePage(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: ChangeNotifierProvider(
+          create: (_) => ProviderData(),
+          child: MyHomePage(),
+        ));
   }
 }
 
@@ -45,85 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void names() async {
     Box box = await Hive.openBox<ApName>('ANames');
 
-    print(box.length);
-
-    for (int i = 0; i <= box.length - 1; i++) {
-      ApName apname = box.getAt(i);
-      apname.key;
-      List<OurData> ourdata = apname.ourdata;
-      apname;
-      ourdata;
-      for (int j = 0; j <= ourdata.length - 1; j++) {
-        ourdata.length;
-        print(ourdata.length);
-        ourdata;
-        print("Inn:" + ourdata[j].INN);
-      }
-      print(apname);
-    }
-    // for(int i, i<=)
-    // box.get(key)
-    // box.add(ApName(key: 'mick', ourdata: [
-    //   OurData(
-    //     numberOrder: 'numbesdraddsadassdasddsOrder',
-    //     INN: 'IsdNadaasdasdsdN',
-    //     status: 'stasasdaasdasdasdadtus',
-    //     dateOfEntryOfOrderInStatus: 'dateOfdsEntaasdasdsdasdryOfOrderInStatus',
-    //     service: 'sasdasdarasdsavice',
-    //     additionalSalesChannel: 'additionadslSalesChannel',
-    //     dateOfApplicationRegistration: 'dateOfsdApplicationRegistration',
-    //     dateOfRegistrationUnderTheOrder: 'dateOfsdRegistrationUnderTheOrder',
-    //     regOfOrderOnTVP: 'regOfOrsdderOnTVP',
-    //     checkTypeOfTVP: 'checkTypesdOfTadsasdaVP',
-    //     availabilityOfTVP: 'availabilsasdasddityOfTVP',
-    //     completionOfTVPCheck: 'completsasdasdionOfTVPCheck',
-    //     durationOfTVPCheck: 'durationOsdfTVPCheck',
-    //     noOfClients: 'noOfClsdients',
-    //     dateOfSendingToAPTV: 'datsdeOasdasdafSendingToAPTV',
-    //     endDateOfAPTVPlanned: 'endDsdaasdasdasteOfAPTVPlanned',
-    //     endDateOfAPTVActual: 'endDsdaasdasdteOfAPTVActual',
-    //     durationOfAPTVStage: 'durasdtasdasdionOfAPTVStage',
-    //     dispatchDateToDo: 'dispatcsdasdasdhDateToDo',
-    //     endDateToPlanned: 'endDatesdToPlanned',
-    //     endDateToActual: 'asdasda',
-    //     durationOfStageTo: 'duratiasdasddsonOfStageTo',
-    //     client: 'asdasdasda',
-    //   ),
-    // ]));
-
-    var values = await box.values.toList();
-    print(values);
-    // int count = 0;
-    // var file = 'example_data/Аудит заявок РФ_13.03.23.xlsx';
-    // var bytes = File(file).readAsBytesSync();
-    // Excel excel = Excel.decodeBytes(bytes);
-    // text = '[';
-    // for (var table in excel.tables.keys) {
-    //   print(table); //sheet Name
-    //   print(excel.tables[table]!.maxCols);
-    //   print(excel.tables[table]!.maxRows);
-    //   // for (List<Data?> row in excel.tables[table]!.rows) {
-    //   //   for (var data in row) {
-    //   //     print(data?.value);
-    //   //     // print('$row');
-    //   //   }
-    //   // }
-    //   for (Data? element in excel.tables[table]!.rows[0]) {
-    //     // print(++count);
-
-    //     if (element == null) continue;
-    //     // log('${element.cellStyle}', name: '${element.value}');
-    //     // log('${element?.cellStyle?.backgroundColor}' ?? '', name: '${element?.value}');
-    //     // log('${element?.cellStyle?.props.last}' ?? '', name: '${element?.value}');
-
-    //     if (element.cellStyle!.backgroundColor != 'none') {
-    //       text += '\'${element.value}\',';
-    //       log('-------- ОНО!!!', name: '${element.value}');
-    //     }
-    //     print('$text]');
-    //     setState(() {});
-    //   }
-    // }
+    // ProviderData.addNewData(keyname: keyname, ourData: ourData)
   }
 
   @override
@@ -169,7 +94,7 @@ class ProviderData extends ChangeNotifier {
   List<ApName> listApName = [];
 
   ///Добавить новые данные
-  addNewData({
+  static addNewData({
     required String keyname,
     required OurData ourData,
   }) async {
