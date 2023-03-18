@@ -45,33 +45,51 @@ class _MyHomePageState extends State<MyHomePage> {
   void names() async {
     Box box = await Hive.openBox<ApName>('ANames');
 
-    box.add(ApName(key: 'mick', ourdata: [
-      OurData(
-        numberOrder: 'numbesdraddsadassdasddsOrder',
-        INN: 'IsdNadaasdasdsdN',
-        status: 'stasasdaasdasdasdadtus',
-        dateOfEntryOfOrderInStatus: 'dateOfdsEntaasdasdsdasdryOfOrderInStatus',
-        service: 'sasdasdarasdsavice',
-        additionalSalesChannel: 'additionadslSalesChannel',
-        dateOfApplicationRegistration: 'dateOfsdApplicationRegistration',
-        dateOfRegistrationUnderTheOrder: 'dateOfsdRegistrationUnderTheOrder',
-        regOfOrderOnTVP: 'regOfOrsdderOnTVP',
-        checkTypeOfTVP: 'checkTypesdOfTadsasdaVP',
-        availabilityOfTVP: 'availabilsasdasddityOfTVP',
-        completionOfTVPCheck: 'completsasdasdionOfTVPCheck',
-        durationOfTVPCheck: 'durationOsdfTVPCheck',
-        noOfClients: 'noOfClsdients',
-        dateOfSendingToAPTV: 'datsdeOasdasdafSendingToAPTV',
-        endDateOfAPTVPlanned: 'endDsdaasdasdasteOfAPTVPlanned',
-        endDateOfAPTVActual: 'endDsdaasdasdteOfAPTVActual',
-        durationOfAPTVStage: 'durasdtasdasdionOfAPTVStage',
-        dispatchDateToDo: 'dispatcsdasdasdhDateToDo',
-        endDateToPlanned: 'endDatesdToPlanned',
-        endDateToActual: 'asdasda',
-        durationOfStageTo: 'duratiasdasddsonOfStageTo',
-        client: 'asdasdasda',
-      ),
-    ]));
+    print(box.length);
+
+    for (int i = 0; i <= box.length - 1; i++) {
+      ApName apname = box.getAt(i);
+      apname.key;
+      List<OurData> ourdata = apname.ourdata;
+      apname;
+      ourdata;
+      for (int j = 0; j <= ourdata.length - 1; j++) {
+        ourdata.length;
+        print(ourdata.length);
+        ourdata;
+        print("Inn:" + ourdata[j].INN);
+      }
+      print(apname);
+    }
+    // for(int i, i<=)
+    // box.get(key)
+    // box.add(ApName(key: 'mick', ourdata: [
+    //   OurData(
+    //     numberOrder: 'numbesdraddsadassdasddsOrder',
+    //     INN: 'IsdNadaasdasdsdN',
+    //     status: 'stasasdaasdasdasdadtus',
+    //     dateOfEntryOfOrderInStatus: 'dateOfdsEntaasdasdsdasdryOfOrderInStatus',
+    //     service: 'sasdasdarasdsavice',
+    //     additionalSalesChannel: 'additionadslSalesChannel',
+    //     dateOfApplicationRegistration: 'dateOfsdApplicationRegistration',
+    //     dateOfRegistrationUnderTheOrder: 'dateOfsdRegistrationUnderTheOrder',
+    //     regOfOrderOnTVP: 'regOfOrsdderOnTVP',
+    //     checkTypeOfTVP: 'checkTypesdOfTadsasdaVP',
+    //     availabilityOfTVP: 'availabilsasdasddityOfTVP',
+    //     completionOfTVPCheck: 'completsasdasdionOfTVPCheck',
+    //     durationOfTVPCheck: 'durationOsdfTVPCheck',
+    //     noOfClients: 'noOfClsdients',
+    //     dateOfSendingToAPTV: 'datsdeOasdasdafSendingToAPTV',
+    //     endDateOfAPTVPlanned: 'endDsdaasdasdasteOfAPTVPlanned',
+    //     endDateOfAPTVActual: 'endDsdaasdasdteOfAPTVActual',
+    //     durationOfAPTVStage: 'durasdtasdasdionOfAPTVStage',
+    //     dispatchDateToDo: 'dispatcsdasdasdhDateToDo',
+    //     endDateToPlanned: 'endDatesdToPlanned',
+    //     endDateToActual: 'asdasda',
+    //     durationOfStageTo: 'duratiasdasddsonOfStageTo',
+    //     client: 'asdasdasda',
+    //   ),
+    // ]));
 
     var values = await box.values.toList();
     print(values);
@@ -130,4 +148,38 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+class ProviderData extends ChangeNotifier {
+  addNewData({
+    required String keyname,
+    required OurData ourData,
+  }) async {
+    Box box = await Hive.openBox<ApName>('ANames');
+    for (int i = 0; i <= box.length - 1; i++) {
+      ApName apname = box.getAt(i);
+      if (keyname == apname.key) {
+        apname.ourdata.add(ourData);
+      } else {
+        box.add(
+          ApName(key: keyname, ourdata: [ourData]),
+        );
+      }
+    }
+    box.close();
+  }
+
+  // findElemntByKey(keyname) async {
+  //   Box box = await Hive.openBox<ApName>('ANames');
+  //   for (int i = 0; i <= box.length - 1; i++) {
+  //     ApName apname = box.getAt(i);
+  //     List<OurData> ourdata = apname.ourdata;
+  //     for (int j = 0; j <= ourdata.length - 1; j++) {
+  //       ourdata.length;
+  //       print(ourdata.length);
+  //       ourdata;
+  //       print("Inn:" + ourdata[j].INN);
+  //     }
+  //   }
+  // }
 }
