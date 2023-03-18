@@ -1,16 +1,18 @@
 import 'dart:developer';
 import 'dart:io';
-import 'dart:math';
-import 'package:hive/hive.dart';
-import 'package:excel/excel.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:provider/provider.dart';
 import 'package:rostelecom_life_application/data/entities/hive_adap.dart';
+import 'package:rostelecom_life_application/data/local_data_source/drag_and_drop_file.dart';
+import 'package:rostelecom_life_application/data/local_data_source/provider_data.dart';
+import 'package:rostelecom_life_application/enum/excel_headers_enum.dart';
 
 void main() async {
   await Hive.initFlutter().then((_) {
-    // Hive.registerAdapter(OurDataAdapter());
-    // Hive.registerAdapter(ApNameAdapter());
+    Hive.registerAdapter(OurDataAdapter());
+    Hive.registerAdapter(ApNameAdapter());
   });
 
   runApp(const MyApp());
@@ -27,7 +29,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(),
+      home: ChangeNotifierProvider(
+        create: (_) => ProviderData(),
+        child: const MyHomePage(),
+      ),
     );
   }
 }
@@ -40,93 +45,70 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // String text = '';
+  List<OurData> listTileData = [];
+  List<OurData> listOurData = [];
+
+  @override
+  void initState() {
+    log('Парсинг из эксельки');
+    listOurData = DragAndDropFile.getDataFile(file: File('example_data/Аудит заявок РФ_13.03.23.xlsx'));
+    log('Данные распарсены');
+    super.initState();
+  }
 
   void names() async {
+
+    // box.clear();
+    for (var element in listOurData.sublist(0, 10)) {
+      ProviderData.addNewData(keyname: element.numberOrder.toString(), ourData: element);
+    }
+    log('Данные занесены в hive');
     Box box = await Hive.openBox<ApName>('ANames');
-
-    box.add(ApName(key: 'sad', ourdata: [
-      OurData(
-        numberOrder: 'numbesdradasdasddsOrder',
-        INN: 'IsdNadasdN',
-        status: 'stasasdasdadtus',
-        dateOfEntryOfOrderInStatus: 'dateOfdsEntasdasdryOfOrderInStatus',
-        service: 'sasdasdarvice',
-        additionalSalesChannel: 'additionadslSalesChannel',
-        dateOfApplicationRegistration: 'dateOfsdApplicationRegistration',
-        dateOfRegistrationUnderTheOrder: 'dateOfsdRegistrationUnderTheOrder',
-        regOfOrderOnTVP: 'regOfOrsdderOnTVP',
-        checkTypeOfTVP: 'checkTypesdOfTadsasdaVP',
-        availabilityOfTVP: 'availabilsasdasddityOfTVP',
-        completionOfTVPCheck: 'completsasdasdionOfTVPCheck',
-        durationOfTVPCheck: 'durationOsdfTVPCheck',
-        noOfClients: 'noOfClsdients',
-        dateOfSendingToAPTV: 'datsdeOasdasdafSendingToAPTV',
-        endDateOfAPTVPlanned: 'endDsdaasdasdasteOfAPTVPlanned',
-        endDateOfAPTVActual: 'endDsdaasdasdteOfAPTVActual',
-        durationOfAPTVStage: 'durasdtasdasdionOfAPTVStage',
-        dispatchDateToDo: 'dispatcsdasdasdhDateToDo',
-        endDateToPlanned: 'endDatesdToPlanned',
-        endDateToActual: 'asdasda',
-        durationOfStageTo: 'duratiasdasddsonOfStageTo',
-        client: 'asdasdasda',
-      ),
-    ]));
-
-    var values = await box.values.toList();
-    print(values);
-    // int count = 0;
-    // var file = 'example_data/Аудит заявок РФ_13.03.23.xlsx';
-    // var bytes = File(file).readAsBytesSync();
-    // Excel excel = Excel.decodeBytes(bytes);
-    // text = '[';
-    // for (var table in excel.tables.keys) {
-    //   print(table); //sheet Name
-    //   print(excel.tables[table]!.maxCols);
-    //   print(excel.tables[table]!.maxRows);
-    //   // for (List<Data?> row in excel.tables[table]!.rows) {
-    //   //   for (var data in row) {
-    //   //     print(data?.value);
-    //   //     // print('$row');
-    //   //   }
-    //   // }
-    //   for (Data? element in excel.tables[table]!.rows[0]) {
-    //     // print(++count);
-
-    //     if (element == null) continue;
-    //     // log('${element.cellStyle}', name: '${element.value}');
-    //     // log('${element?.cellStyle?.backgroundColor}' ?? '', name: '${element?.value}');
-    //     // log('${element?.cellStyle?.props.last}' ?? '', name: '${element?.value}');
-
-    //     if (element.cellStyle!.backgroundColor != 'none') {
-    //       text += '\'${element.value}\',';
-    //       log('-------- ОНО!!!', name: '${element.value}');
-    //     }
-    //     print('$text]');
-    //     setState(() {});
-    //   }
-    // }
+    log(box.length.toString(), name: 'hive');
+    for (int i = 0; i <= box.length - 1; i++) {
+      ApName apname = box.getAt(i);
+      listTileData.add(apname.ourdata[0]);
+    }
+    log('Данные получены из hive');
   }
 
   @override
   Widget build(BuildContext context) {
-    names();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: ElevatedButton(
-                onPressed: () => names,
-                child: Text('Press on me'),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: ElevatedButton(
+              onPressed: names,
+              child: const Text('Press on me'),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columns: ExcelHeaderEnum.values
+                      .map((header) => DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                header.name(),
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  rows: listTileData
+                      .map((tilesList) =>
+                          DataRow(cells: tilesList.toList().map((tile) => DataCell(Text('$tile'))).toList()))
+                      .toList(),
+                ),
               ),
             ),
-            // Text(text),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

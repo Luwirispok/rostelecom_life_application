@@ -24,9 +24,9 @@ class DragAndDropFile {
         listData.add(ListDataToOurDataMap.getData(mapExcelHeader.entries
             .map(
               (index) {
-                log('${element[index.value]?.value.toString()}', name: 'Table');
+                // log('${element[index.value]?.value.toString()}', name: 'Table');
                 return index.key == ExcelHeaderEnum.client ? _clearOfDebris(element[index.value]?.value.toString()):
-                element[index.value]?.value;
+                element[index.value]?.value.toString();
               },
             )
             .toList()));
