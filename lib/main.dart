@@ -7,6 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:rostelecom_life_application/data/entities/hive_adap.dart';
+import 'package:rostelecom_life_application/presentation/about/about.dart';
+
+import 'package:rostelecom_life_application/presentation/main_screen/ma_screen.dart';
+import 'package:rostelecom_life_application/presentation/profile/profile.dart';
+import 'package:rostelecom_life_application/presentation/upload_new_data/upload.dart';
 
 void main() async {
   await Hive.initFlutter().then((_) {
@@ -23,15 +28,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: ChangeNotifierProvider(
-          create: (_) => ProviderData(),
-          child: MyHomePage(),
-        ));
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      routes: {
+        '/': (context) => MainScreenWidget(),
+        '/about': (context) => AboutScreenWidget(),
+        '/upload': (context) => UploadScreenWidget(),
+        '/profile': (context) => ProfileScreenWidget(),
+      },
+      initialRoute: '/',
+    );
   }
 }
 
