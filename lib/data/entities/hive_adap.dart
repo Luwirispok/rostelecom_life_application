@@ -168,6 +168,113 @@ class OurData {
       durationOfStageTo: map['durationOfStageTo'] as dynamic,
     );
   }
+
+  OurData copyWith({
+    dynamic? numberOrder,
+    dynamic? client,
+    dynamic? INN,
+    dynamic? status,
+    dynamic? dateOfEntryOfOrderInStatus,
+    dynamic? service,
+    dynamic? additionalSalesChannel,
+    dynamic? dateOfApplicationRegistration,
+    dynamic? dateOfRegistrationUnderTheOrder,
+    dynamic? regOfOrderOnTVP,
+    dynamic? checkTypeOfTVP,
+    dynamic? availabilityOfTVP,
+    dynamic? completionOfTVPCheck,
+    dynamic? durationOfTVPCheck,
+    dynamic? noOfClients,
+    dynamic? dateOfSendingToAPTV,
+    dynamic? endDateOfAPTVPlanned,
+    dynamic? endDateOfAPTVActual,
+    dynamic? durationOfAPTVStage,
+    dynamic? dispatchDateToDo,
+    dynamic? endDateToPlanned,
+    dynamic? endDateToActual,
+    dynamic? durationOfStageTo,
+  }) {
+    return OurData(
+      numberOrder: numberOrder ?? this.numberOrder,
+      client: client ?? this.client,
+      INN: INN ?? this.INN,
+      status: status ?? this.status,
+      dateOfEntryOfOrderInStatus: dateOfEntryOfOrderInStatus ?? this.dateOfEntryOfOrderInStatus,
+      service: service ?? this.service,
+      additionalSalesChannel: additionalSalesChannel ?? this.additionalSalesChannel,
+      dateOfApplicationRegistration: dateOfApplicationRegistration ?? this.dateOfApplicationRegistration,
+      dateOfRegistrationUnderTheOrder: dateOfRegistrationUnderTheOrder ?? this.dateOfRegistrationUnderTheOrder,
+      regOfOrderOnTVP: regOfOrderOnTVP ?? this.regOfOrderOnTVP,
+      checkTypeOfTVP: checkTypeOfTVP ?? this.checkTypeOfTVP,
+      availabilityOfTVP: availabilityOfTVP ?? this.availabilityOfTVP,
+      completionOfTVPCheck: completionOfTVPCheck ?? this.completionOfTVPCheck,
+      durationOfTVPCheck: durationOfTVPCheck ?? this.durationOfTVPCheck,
+      noOfClients: noOfClients ?? this.noOfClients,
+      dateOfSendingToAPTV: dateOfSendingToAPTV ?? this.dateOfSendingToAPTV,
+      endDateOfAPTVPlanned: endDateOfAPTVPlanned ?? this.endDateOfAPTVPlanned,
+      endDateOfAPTVActual: endDateOfAPTVActual ?? this.endDateOfAPTVActual,
+      durationOfAPTVStage: durationOfAPTVStage ?? this.durationOfAPTVStage,
+      dispatchDateToDo: dispatchDateToDo ?? this.dispatchDateToDo,
+      endDateToPlanned: endDateToPlanned ?? this.endDateToPlanned,
+      endDateToActual: endDateToActual ?? this.endDateToActual,
+      durationOfStageTo: durationOfStageTo ?? this.durationOfStageTo,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is OurData &&
+              runtimeType == other.runtimeType &&
+              numberOrder == other.numberOrder &&
+              client == other.client &&
+              INN == other.INN &&
+              status == other.status &&
+              dateOfEntryOfOrderInStatus == other.dateOfEntryOfOrderInStatus &&
+              service == other.service &&
+              additionalSalesChannel == other.additionalSalesChannel &&
+              dateOfApplicationRegistration == other.dateOfApplicationRegistration &&
+              dateOfRegistrationUnderTheOrder == other.dateOfRegistrationUnderTheOrder &&
+              regOfOrderOnTVP == other.regOfOrderOnTVP &&
+              checkTypeOfTVP == other.checkTypeOfTVP &&
+              availabilityOfTVP == other.availabilityOfTVP &&
+              completionOfTVPCheck == other.completionOfTVPCheck &&
+              durationOfTVPCheck == other.durationOfTVPCheck &&
+              noOfClients == other.noOfClients &&
+              dateOfSendingToAPTV == other.dateOfSendingToAPTV &&
+              endDateOfAPTVPlanned == other.endDateOfAPTVPlanned &&
+              endDateOfAPTVActual == other.endDateOfAPTVActual &&
+              durationOfAPTVStage == other.durationOfAPTVStage &&
+              dispatchDateToDo == other.dispatchDateToDo &&
+              endDateToPlanned == other.endDateToPlanned &&
+              endDateToActual == other.endDateToActual &&
+              durationOfStageTo == other.durationOfStageTo;
+
+  @override
+  int get hashCode =>
+      numberOrder.hashCode ^
+      client.hashCode ^
+      INN.hashCode ^
+      status.hashCode ^
+      dateOfEntryOfOrderInStatus.hashCode ^
+      service.hashCode ^
+      additionalSalesChannel.hashCode ^
+      dateOfApplicationRegistration.hashCode ^
+      dateOfRegistrationUnderTheOrder.hashCode ^
+      regOfOrderOnTVP.hashCode ^
+      checkTypeOfTVP.hashCode ^
+      availabilityOfTVP.hashCode ^
+      completionOfTVPCheck.hashCode ^
+      durationOfTVPCheck.hashCode ^
+      noOfClients.hashCode ^
+      dateOfSendingToAPTV.hashCode ^
+      endDateOfAPTVPlanned.hashCode ^
+      endDateOfAPTVActual.hashCode ^
+      durationOfAPTVStage.hashCode ^
+      dispatchDateToDo.hashCode ^
+      endDateToPlanned.hashCode ^
+      endDateToActual.hashCode ^
+      durationOfStageTo.hashCode;
 }
 
 // class OurDataAdapter extends TypeAdapter<OurData> {

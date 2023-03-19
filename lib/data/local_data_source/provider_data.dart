@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rostelecom_life_application/data/entities/hive_adap.dart';
@@ -22,21 +24,22 @@ class ProviderData extends ChangeNotifier {
 
   ///Добавить новые данные
   static addNewData({
-    required String keyname,
+    required String keyName,
     required OurData ourData,
   }) async {
-    Box box = await Hive.openBox<ApName>('ANames');
-    for (int i = 0; i <= box.length - 1; i++) {
-      ApName apname = box.getAt(i);
-      if (keyname == apname.key) {
-        apname.ourdata.add(ourData);
-      } else {
-        box.add(
-          ApName(key: keyname, ourdata: [ourData]),
-        );
-      }
+    Box box = await Hive.openBox<List<OurData>>('OurDataTable');
+    if (box.length == 0) {
+      await box.put(keyName, [ourData]);
+      return;
     }
-    // box.close();
+
+    if (box.containsKey(keyName)) {
+      if (box.get(keyName).contains(ourData)) return;
+      await box.get(keyName).add(ourData);
+    } else {
+      await box.put(keyName, [ourData]);
+    }
+    await box.close();
   }
 
   ///Перейти к выбранному элементу и просмотреть информацию подробнее.

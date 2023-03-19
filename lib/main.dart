@@ -9,12 +9,16 @@ import 'package:rostelecom_life_application/data/local_data_source/drag_and_drop
 import 'package:rostelecom_life_application/data/local_data_source/provider_data.dart';
 import 'package:rostelecom_life_application/enum/excel_headers_enum.dart';
 
+List<OurData> listOurData = [];
+
 void main() async {
   await Hive.initFlutter().then((_) {
     Hive.registerAdapter(OurDataAdapter());
     Hive.registerAdapter(ApNameAdapter());
   });
-
+  log('Парсинг из эксельки');
+  listOurData = DragAndDropFile.getDataFile(file: File('example_data/Аудит заявок РФ_14.03.23.xlsx'));
+  log('Данные распарсены');
   runApp(const MyApp());
 }
 
@@ -46,30 +50,34 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<OurData> listTileData = [];
-  List<OurData> listOurData = [];
 
   @override
   void initState() {
-    log('Парсинг из эксельки');
-    listOurData = DragAndDropFile.getDataFile(file: File('example_data/Аудит заявок РФ_13.03.23.xlsx'));
-    log('Данные распарсены');
+
     super.initState();
   }
 
   void names() async {
-
-    // box.clear();
-    for (var element in listOurData.sublist(0, 10)) {
-      ProviderData.addNewData(keyname: element.numberOrder.toString(), ourData: element);
+    // Box box = await Hive.openBox<ApName>('ANames');
+    Box box = await Hive.openBox<List<OurData>>('OurDataTable');
+    box.clear();
+    for (OurData element in listOurData) {
+      await ProviderData.addNewData(keyName: element.numberOrder.toString(), ourData: element);
     }
     log('Данные занесены в hive');
-    Box box = await Hive.openBox<ApName>('ANames');
     log(box.length.toString(), name: 'hive');
-    for (int i = 0; i <= box.length - 1; i++) {
-      ApName apname = box.getAt(i);
-      listTileData.add(apname.ourdata[0]);
+    listTileData.clear();
+    // for (int i = 0; i < box.length; i++) {
+    for (int i = 0; i < 500; i++) {
+      // ApName apname = box.getAt(i);
+      // listTileData.addAll(apname.ourdata);
+      List<OurData> setOurDate = box.getAt(i);
+      listTileData
+          .addAll(setOurDate.length > 1 ? setOurDate.map((e) => e.copyWith(numberOrder: '---- ${e.numberOrder}')) : setOurDate);
     }
     log('Данные получены из hive');
+    box.close();
+    setState(() {});
   }
 
   @override
